@@ -1,0 +1,28 @@
+﻿@model List<ProductViewModel>
+
+@{
+    ViewData["Title"] = "Home Page";
+}
+
+<div class="row row-cols-1 row-cols-md-3 g-4">
+    @foreach(var product in Model)
+    {   
+            <div class="col">
+                <div class="card">
+                    <a asp-controller="Products" asp-action="Details" asp-route-id="@product.Id" class="text-decoration-none link-dark">
+                    <img src="@product.ImageUrl" class="card-img-top" alt="">
+                    </a>
+                    <div class="card-body">
+                        <span class="fs-4">@product.Title</span>
+                        <span class="card-title d-block">$@product.Price</span>
+                        <p class="card-text">@product.Description</p>
+                        <form asp-controller="Products" asp-action="AddProductToCart" asp-route-id="@product.Id">
+                            <button type="submit" class="btn btn-outline-dark">
+                                Buy now
+                            </button>
+                        </form>
+                    </div>
+                </div>
+            </div>            
+    }
+</div>

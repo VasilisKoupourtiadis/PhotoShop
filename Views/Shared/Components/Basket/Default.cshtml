@@ -1,0 +1,14 @@
+﻿@{
+    var basketItemCount = (int)ViewData["BasketItemCount"];
+}
+
+@if(basketItemCount == 0)
+{
+    <i class="bi bi-cart2 fs-3 px-2 position-relative"></i>
+}
+else
+{
+    <i class="bi bi-cart2 fs-3 px-2">
+        <span class="position-absolute cart-amount end-0 translate-middle-y rounded-circle bg-danger fst-normal fw-bold">@basketItemCount</span>
+    </i>
+}

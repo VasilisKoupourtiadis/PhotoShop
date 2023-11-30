@@ -1,0 +1,22 @@
+﻿@model BasketDto
+
+@{
+    ViewData["Title"] = "Checkout";
+}
+
+@if (Model.Products is null || Model.Products.Count == 0)
+{
+    <p class="text-center">Your basket is empty</p>
+}
+else
+{
+    @foreach(var basketItem in Model.Products)
+    {
+        <p>@basketItem.Title</p>
+        <p>@basketItem.Price</p>
+    }
+
+    <form asp-controller="Checkout" asp-action="CreateCheckoutSession">
+        <button type="submit" class="btn btn-outline-dark btn-lg px-5">Checkout</button>
+    </form>
+}
