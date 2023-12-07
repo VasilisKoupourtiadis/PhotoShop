@@ -17,7 +17,11 @@ public class Basket : ViewComponent
         if(!string.IsNullOrEmpty(basket))
         {
             var basketDto = JsonSerializer.Deserialize<BasketDto>(basket);
-            basketItemCount = basketDto.Products.Count;
+
+            foreach(var product in basketDto.Products)
+            {
+                basketItemCount += product.Quantity.GetValueOrDefault(0);
+            }            
         }
 
         ViewData["BasketItemCount"] = basketItemCount;
