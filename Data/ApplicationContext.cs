@@ -1,11 +1,13 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using PhotoShop.Models.Domin;
+using PhotoShop.Models.Domain;
 
 namespace PhotoShop.Data;
 
 public class ApplicationContext : DbContext
 {
     public DbSet<Product> Products {  get; set; }
+
+    public DbSet<Order> Orders { get; set; }
 
     public ApplicationContext(DbContextOptions<ApplicationContext> options) : base(options)
     {
