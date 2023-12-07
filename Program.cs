@@ -1,5 +1,6 @@
 using Microsoft.EntityFrameworkCore;
 using PhotoShop.Data;
+using PhotoShop.Services;
 using Stripe;
 using Stripe.Checkout;
 
@@ -20,6 +21,7 @@ public class Program
         // Add services to the container.
         builder.Services.AddControllersWithViews();
         builder.Services.AddAutoMapper(typeof(Program));
+        builder.Services.AddSingleton<IKeyHelper, KeyHelper>();
 
         builder.Services.AddDistributedMemoryCache();
         builder.Services.AddSession(options =>
