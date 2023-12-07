@@ -3,25 +3,19 @@ using PhotoShop.Data;
 using PhotoShop.Models.Dto;
 using System.Text.Json;
 using PhotoShop.Models.ViewModels;
+using PhotoShop.Helpers;
 
 namespace PhotoShop.Controllers;
 
 public class CartController : Controller
 {
-    const string SessionKey = "Basket";
-
-    private readonly ApplicationContext context;
-
-    public CartController(ApplicationContext context)
-    {
-        this.context = context;
-    }
+    private readonly string sessionKey = StringHelper.GetSessionKey();
 
     public IActionResult DecreaseCartItemQuantityByOne(Guid? id)
     {
         var referer = Request.Headers["Referer"].ToString();
 
-        var basket = HttpContext.Session.GetString(SessionKey);
+        var basket = HttpContext.Session.GetString(sessionKey);
 
         var basketDto = new BasketDto();
 
@@ -43,7 +37,7 @@ public class CartController : Controller
 
         var serializedBasket = JsonSerializer.Serialize(basketDto);
 
-        HttpContext.Session.SetString(SessionKey, serializedBasket);
+        HttpContext.Session.SetString(sessionKey, serializedBasket);
 
         return Redirect(referer);
     }
@@ -52,7 +46,7 @@ public class CartController : Controller
     {
         var referer = Request.Headers["Referer"].ToString();
 
-        var basket = HttpContext.Session.GetString(SessionKey);
+        var basket = HttpContext.Session.GetString(sessionKey);
 
         var basketDto = new BasketDto();
 
@@ -74,7 +68,7 @@ public class CartController : Controller
 
         var serializedBasket = JsonSerializer.Serialize(basketDto);
 
-        HttpContext.Session.SetString(SessionKey, serializedBasket);
+        HttpContext.Session.SetString(sessionKey, serializedBasket);
 
         return Redirect(referer);
     }
@@ -83,7 +77,7 @@ public class CartController : Controller
     {
         var referer = Request.Headers["Referer"].ToString();
 
-        var basket = HttpContext.Session.GetString(SessionKey);
+        var basket = HttpContext.Session.GetString(sessionKey);
 
         var basketDto = new BasketDto();
 
@@ -100,7 +94,7 @@ public class CartController : Controller
 
         var serializedBasket = JsonSerializer.Serialize(basketDto);
 
-        HttpContext.Session.SetString(SessionKey, serializedBasket);
+        HttpContext.Session.SetString(sessionKey, serializedBasket);
 
         return Redirect(referer);
     }

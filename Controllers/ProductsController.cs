@@ -9,10 +9,10 @@ using System.Text.Json;
 namespace PhotoShop.Controllers;
 
 public class ProductsController : Controller
-{
-    const string SessionKey = "Basket";
-
+{    
     const string URLPath = "details";
+
+    private readonly string sessionKey = StringHelper.GetSessionKey();
 
     private readonly ILogger<ProductsController> logger;
 
@@ -44,7 +44,7 @@ public class ProductsController : Controller
 
         var product = dataFetcher.GetProductById(id).Result;
 
-        var basket = HttpContext.Session.GetString(SessionKey);
+        var basket = HttpContext.Session.GetString(sessionKey);
 
         var basketDto = new BasketDto();
 
@@ -70,7 +70,7 @@ public class ProductsController : Controller
 
         var serializedBasket = JsonSerializer.Serialize(basketDto);
 
-        HttpContext.Session.SetString(SessionKey, serializedBasket);
+        HttpContext.Session.SetString(sessionKey, serializedBasket);
 
         if(referer.ToLower().Contains(URLPath)) return RedirectToAction(nameof(Details), new { id });
 

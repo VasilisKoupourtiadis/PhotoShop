@@ -4,13 +4,12 @@ using System.Text.Json;
 using Stripe;
 using Stripe.Checkout;
 using PhotoShop.Models.ViewModels;
+using PhotoShop.Helpers;
 
 namespace PhotoShop.Controllers;
 
 public class CheckoutController : Controller
 {
-    const string SessionKey = "Basket";
-
     const string Domain = "https://localhost:7015";
 
     const string Mode = "payment";
@@ -19,9 +18,11 @@ public class CheckoutController : Controller
 
     const string PaymentMethod = "card";
 
+    private readonly string sessionKey = StringHelper.GetSessionKey();
+
     public IActionResult Index()
     {
-        var basket = HttpContext.Session.GetString(SessionKey);
+        var basket = HttpContext.Session.GetString(sessionKey);
 
         var basketDto = new BasketDto();
 
@@ -48,7 +49,7 @@ public class CheckoutController : Controller
 
     public IActionResult CreateCheckoutSession()
     {
-        var basket = HttpContext.Session.GetString(SessionKey);
+        var basket = HttpContext.Session.GetString(sessionKey);
 
         var basketDto = new BasketDto();
 

@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using PhotoShop.Helpers;
 using PhotoShop.Models.Dto;
 using System.Text.Json;
 
@@ -6,7 +7,7 @@ namespace PhotoShop.ViewComponents;
 
 public class Basket : ViewComponent
 {
-    const string sessionKey = "Basket";
+    private readonly string sessionKey = StringHelper.GetSessionKey();
 
     public IViewComponentResult Invoke()
     {

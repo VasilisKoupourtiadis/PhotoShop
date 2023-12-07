@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using PhotoShop.Data;
+using PhotoShop.Helpers;
 using PhotoShop.Models.Domain;
 using PhotoShop.Models.Dto;
 using PhotoShop.Models.ViewModels;
@@ -9,7 +10,7 @@ namespace PhotoShop.Controllers;
 
 public class OrderController : Controller
 {
-    const string SessionKey = "Basket";
+    private readonly string sessionKey = StringHelper.GetSessionKey();
 
     private readonly ApplicationContext context;
 
@@ -20,7 +21,7 @@ public class OrderController : Controller
 
     public async Task<IActionResult> Success(Guid? id)
     {
-        var basket = HttpContext.Session.GetString(SessionKey);
+        var basket = HttpContext.Session.GetString(sessionKey);
 
         if (string.IsNullOrEmpty(basket)) throw new ArgumentNullException(nameof(id), $"Could not get basket with Id:${id}");
 
@@ -51,7 +52,7 @@ public class OrderController : Controller
             OrderId = order.Id
         };
 
-        HttpContext.Session.Remove(SessionKey);
+        HttpContext.Session.Remove(sessionKey);
 
         return View(checkoutViewModel);
     }
