@@ -4,16 +4,24 @@ using PhotoShop.Models.Dto;
 using System.Text.Json;
 using PhotoShop.Models.ViewModels;
 using PhotoShop.Helpers;
+using PhotoShop.Services;
 
 namespace PhotoShop.Controllers;
 
 public class CartController : Controller
 {
-    private readonly string sessionKey = StringHelper.GetSessionKey();
+    private readonly IKeyHelper keyHelper;
+
+    public CartController(IKeyHelper keyHelper)
+    {
+        this.keyHelper = keyHelper;
+    }
 
     public IActionResult DecreaseCartItemQuantityByOne(Guid? id)
     {
         var referer = Request.Headers["Referer"].ToString();
+
+        var sessionKey = keyHelper.GetSessionKey();
 
         var basket = HttpContext.Session.GetString(sessionKey);
 
@@ -46,6 +54,8 @@ public class CartController : Controller
     {
         var referer = Request.Headers["Referer"].ToString();
 
+        var sessionKey = keyHelper.GetSessionKey();
+
         var basket = HttpContext.Session.GetString(sessionKey);
 
         var basketDto = new BasketDto();
@@ -76,6 +86,8 @@ public class CartController : Controller
     public IActionResult DeleteCartItemRow(Guid? id)
     {
         var referer = Request.Headers["Referer"].ToString();
+
+        var sessionKey = keyHelper.GetSessionKey();
 
         var basket = HttpContext.Session.GetString(sessionKey);
 

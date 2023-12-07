@@ -4,6 +4,7 @@ using PhotoShop.Data;
 using PhotoShop.Helpers;
 using PhotoShop.Models.Dto;
 using PhotoShop.Models.ViewModels;
+using PhotoShop.Services;
 using System.Text.Json;
 
 namespace PhotoShop.Controllers;
@@ -12,7 +13,7 @@ public class ProductsController : Controller
 {    
     const string URLPath = "details";
 
-    private readonly string sessionKey = StringHelper.GetSessionKey();
+    private readonly IKeyHelper keyHelper;
 
     private readonly ILogger<ProductsController> logger;
 
@@ -20,11 +21,12 @@ public class ProductsController : Controller
 
     private readonly IMapper mapper;
 
-    public ProductsController(ILogger<ProductsController> logger, ApplicationContext context, IMapper mapper)
+    public ProductsController(ILogger<ProductsController> logger, ApplicationContext context, IMapper mapper, IKeyHelper keyHelper)
     {
         this.logger = logger;
         this.context = context;
         this.mapper = mapper;
+        this.keyHelper = keyHelper;
     }
 
     public IActionResult Details(Guid? id)
@@ -43,6 +45,8 @@ public class ProductsController : Controller
         var dataFetcher = new DataFetcher(context, mapper);
 
         var product = dataFetcher.GetProductById(id).Result;
+
+        var sessionKey = keyHelper.GetSessionKey();
 
         var basket = HttpContext.Session.GetString(sessionKey);
 

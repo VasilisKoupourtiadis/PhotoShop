@@ -4,23 +4,27 @@ using PhotoShop.Helpers;
 using PhotoShop.Models.Domain;
 using PhotoShop.Models.Dto;
 using PhotoShop.Models.ViewModels;
+using PhotoShop.Services;
 using System.Text.Json;
 
 namespace PhotoShop.Controllers;
 
 public class OrderController : Controller
 {
-    private readonly string sessionKey = StringHelper.GetSessionKey();
+    private readonly IKeyHelper keyHelper;
 
     private readonly ApplicationContext context;
 
-    public OrderController(ApplicationContext context)
+    public OrderController(ApplicationContext context, IKeyHelper keyHelper)
     {
         this.context = context;
+        this.keyHelper = keyHelper;
     }
 
     public async Task<IActionResult> Success(Guid? id)
     {
+        var sessionKey = keyHelper.GetSessionKey();
+
         var basket = HttpContext.Session.GetString(sessionKey);
 
         if (string.IsNullOrEmpty(basket)) throw new ArgumentNullException(nameof(id), $"Could not get basket with Id:${id}");

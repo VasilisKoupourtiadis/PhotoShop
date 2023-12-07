@@ -5,6 +5,7 @@ using Stripe;
 using Stripe.Checkout;
 using PhotoShop.Models.ViewModels;
 using PhotoShop.Helpers;
+using PhotoShop.Services;
 
 namespace PhotoShop.Controllers;
 
@@ -18,10 +19,17 @@ public class CheckoutController : Controller
 
     const string PaymentMethod = "card";
 
-    private readonly string sessionKey = StringHelper.GetSessionKey();
+    private readonly IKeyHelper keyHelper;
+
+    public CheckoutController(IKeyHelper keyHelper)
+    {
+        this.keyHelper = keyHelper;
+    }
 
     public IActionResult Index()
     {
+        var sessionKey = keyHelper.GetSessionKey();
+
         var basket = HttpContext.Session.GetString(sessionKey);
 
         var basketDto = new BasketDto();
@@ -49,6 +57,8 @@ public class CheckoutController : Controller
 
     public IActionResult CreateCheckoutSession()
     {
+        var sessionKey = keyHelper.GetSessionKey();
+
         var basket = HttpContext.Session.GetString(sessionKey);
 
         var basketDto = new BasketDto();
