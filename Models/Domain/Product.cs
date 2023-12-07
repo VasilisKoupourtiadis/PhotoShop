@@ -1,7 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using System.ComponentModel.DataAnnotations;
 
-namespace PhotoShop.Models.Domin;
+namespace PhotoShop.Models.Domain;
 
 public class Product
 {
