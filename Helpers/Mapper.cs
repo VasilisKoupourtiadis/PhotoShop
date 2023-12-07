@@ -1,5 +1,5 @@
 ﻿using AutoMapper;
-using PhotoShop.Models.Domin;
+using PhotoShop.Models.Domain;
 using PhotoShop.Models.ViewModels;
 
 namespace PhotoShop.Helpers;
