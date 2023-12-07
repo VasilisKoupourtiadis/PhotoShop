@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using PhotoShop.Data;
 
@@ -11,9 +12,11 @@ using PhotoShop.Data;
 namespace PhotoShop.Migrations
 {
     [DbContext(typeof(ApplicationContext))]
-    partial class ApplicationContextModelSnapshot : ModelSnapshot
+    [Migration("20231201140655_AddOrderAndOrderLineEntities")]
+    partial class AddOrderAndOrderLineEntities
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -22,7 +25,7 @@ namespace PhotoShop.Migrations
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder);
 
-            modelBuilder.Entity("PhotoShop.Models.Domain.Order", b =>
+            modelBuilder.Entity("PhotoShop.Models.Domin.Order", b =>
                 {
                     b.Property<int>("Id")
                         .HasColumnType("int");
@@ -32,7 +35,7 @@ namespace PhotoShop.Migrations
                     b.ToTable("Orders");
                 });
 
-            modelBuilder.Entity("PhotoShop.Models.Domain.OrderLine", b =>
+            modelBuilder.Entity("PhotoShop.Models.Domin.OrderLine", b =>
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
@@ -49,9 +52,6 @@ namespace PhotoShop.Migrations
                         .HasMaxLength(20)
                         .HasColumnType("nvarchar(20)");
 
-                    b.Property<int>("Quantity")
-                        .HasColumnType("int");
-
                     b.HasKey("Id");
 
                     b.HasIndex("OrderId");
@@ -59,7 +59,7 @@ namespace PhotoShop.Migrations
                     b.ToTable("OrderLine");
                 });
 
-            modelBuilder.Entity("PhotoShop.Models.Domain.Product", b =>
+            modelBuilder.Entity("PhotoShop.Models.Domin.Product", b =>
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
@@ -91,94 +91,94 @@ namespace PhotoShop.Migrations
                     b.HasData(
                         new
                         {
-                            Id = new Guid("719d7d3f-9ab0-4d12-abaf-3db0fc837eec"),
+                            Id = new Guid("0a59022e-de98-41f2-ba0b-42233fab3664"),
                             Description = "This is Photo Nr 1 in our collection of photographs.",
-                            ImageUrl = "https://picsum.photos/id/41/500",
-                            Price = 473m,
+                            ImageUrl = "https://picsum.photos/id/74/500",
+                            Price = 202m,
                             Title = "Photo 1"
                         },
                         new
                         {
-                            Id = new Guid("c4858f61-9283-4fa3-914b-3ed496fdb304"),
+                            Id = new Guid("4efb9c99-0553-471c-a4ff-356e52f23dcc"),
                             Description = "This is Photo Nr 2 in our collection of photographs.",
-                            ImageUrl = "https://picsum.photos/id/81/500",
-                            Price = 530m,
+                            ImageUrl = "https://picsum.photos/id/70/500",
+                            Price = 593m,
                             Title = "Photo 2"
                         },
                         new
                         {
-                            Id = new Guid("8e9941f9-cee8-488d-9965-16eb4c79e623"),
+                            Id = new Guid("b755145f-728e-4652-8cba-70db836c9237"),
                             Description = "This is Photo Nr 3 in our collection of photographs.",
-                            ImageUrl = "https://picsum.photos/id/53/500",
-                            Price = 626m,
+                            ImageUrl = "https://picsum.photos/id/80/500",
+                            Price = 944m,
                             Title = "Photo 3"
                         },
                         new
                         {
-                            Id = new Guid("89c52d5c-a6ea-40e2-ae6a-bb89d98f29fa"),
+                            Id = new Guid("6c44180e-44f6-41d6-b977-6e642b035f6e"),
                             Description = "This is Photo Nr 4 in our collection of photographs.",
-                            ImageUrl = "https://picsum.photos/id/12/500",
-                            Price = 557m,
+                            ImageUrl = "https://picsum.photos/id/57/500",
+                            Price = 911m,
                             Title = "Photo 4"
                         },
                         new
                         {
-                            Id = new Guid("99d5f1d0-4cf8-4635-ba6f-5750b9ae380e"),
+                            Id = new Guid("560d86da-6cc7-48ab-aeed-9644170a0d55"),
                             Description = "This is Photo Nr 5 in our collection of photographs.",
-                            ImageUrl = "https://picsum.photos/id/53/500",
-                            Price = 936m,
+                            ImageUrl = "https://picsum.photos/id/67/500",
+                            Price = 665m,
                             Title = "Photo 5"
                         },
                         new
                         {
-                            Id = new Guid("c2aaa285-af90-4d5a-9e16-74859470d41e"),
+                            Id = new Guid("98af687b-9d6c-449c-92db-8d924445a3c3"),
                             Description = "This is Photo Nr 6 in our collection of photographs.",
-                            ImageUrl = "https://picsum.photos/id/85/500",
-                            Price = 426m,
+                            ImageUrl = "https://picsum.photos/id/83/500",
+                            Price = 160m,
                             Title = "Photo 6"
                         },
                         new
                         {
-                            Id = new Guid("76e2fd69-ed0f-473b-b681-6858dbde3ba9"),
+                            Id = new Guid("d3811ece-6e97-4b93-84be-fd64c968190e"),
                             Description = "This is Photo Nr 7 in our collection of photographs.",
-                            ImageUrl = "https://picsum.photos/id/7/500",
-                            Price = 623m,
+                            ImageUrl = "https://picsum.photos/id/30/500",
+                            Price = 524m,
                             Title = "Photo 7"
                         },
                         new
                         {
-                            Id = new Guid("7e047aeb-b436-40f6-adde-4e1dffe4e977"),
+                            Id = new Guid("cdff9acc-728e-4340-b0ca-a868fbb42226"),
                             Description = "This is Photo Nr 8 in our collection of photographs.",
-                            ImageUrl = "https://picsum.photos/id/34/500",
-                            Price = 426m,
+                            ImageUrl = "https://picsum.photos/id/72/500",
+                            Price = 401m,
                             Title = "Photo 8"
                         },
                         new
                         {
-                            Id = new Guid("200d5b92-d551-41d6-ba06-4f44b5355220"),
+                            Id = new Guid("1bd468db-58f9-4f7a-83cc-b7c75949c062"),
                             Description = "This is Photo Nr 9 in our collection of photographs.",
-                            ImageUrl = "https://picsum.photos/id/63/500",
-                            Price = 765m,
+                            ImageUrl = "https://picsum.photos/id/58/500",
+                            Price = 729m,
                             Title = "Photo 9"
                         },
                         new
                         {
-                            Id = new Guid("33eead55-b609-4a62-9b1e-01b46b6b9765"),
+                            Id = new Guid("dea1c565-d530-48c6-8f71-714a62bd2a1d"),
                             Description = "This is Photo Nr 10 in our collection of photographs.",
-                            ImageUrl = "https://picsum.photos/id/35/500",
-                            Price = 221m,
+                            ImageUrl = "https://picsum.photos/id/16/500",
+                            Price = 697m,
                             Title = "Photo 10"
                         });
                 });
 
-            modelBuilder.Entity("PhotoShop.Models.Domain.OrderLine", b =>
+            modelBuilder.Entity("PhotoShop.Models.Domin.OrderLine", b =>
                 {
-                    b.HasOne("PhotoShop.Models.Domain.Order", null)
+                    b.HasOne("PhotoShop.Models.Domin.Order", null)
                         .WithMany("OrderLines")
                         .HasForeignKey("OrderId");
                 });
 
-            modelBuilder.Entity("PhotoShop.Models.Domain.Order", b =>
+            modelBuilder.Entity("PhotoShop.Models.Domin.Order", b =>
                 {
                     b.Navigation("OrderLines");
                 });
