@@ -26,3 +26,33 @@ body {
     font-size: 12px;
     padding: 2px 6px 2px 6px;
 }
+
+.bi-patch-check {
+    color: forestgreen;
+    font-size: 50px;
+}
+
+.basketItem-image {
+    height: 65px;
+    width: 65px;
+}
+
+.checkout-section {
+    margin-top: 100px;
+}
+
+.checkout-container {
+    margin-top: 50px;
+}
+
+.cartItem-quantity {
+    font-size: 12.5px;
+}
+
+.bi-arrow-left {
+    color: black;
+}
+
+.cartItem-amount {
+    font-size: 13.5px;
+}

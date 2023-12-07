@@ -1,0 +1,39 @@
+﻿@model CheckoutViewModel
+
+@{
+    ViewData["Title"] = "Success";
+}
+
+<section class="d-flex justify-content-center">    
+    <section class="d-flex flex-column w-50">
+        <section class="text-center my-4">
+            <h1 class="display-6">Thank you for your order!</h1>
+            <i class="bi bi-patch-check"></i>
+        </section>
+        <h2 class="display-6 fs-4">Order @Model.OrderId summary</h2>
+        <hr>
+        @foreach (var basketItem in Model.Basket.Products)
+        {
+            <section class="d-flex justify-content-between pb-4">
+                <div class="d-flex align-items-center flex-row">
+                    <img src="@basketItem.ImageUrl" class="rounded basketItem-image" alt="@basketItem.Description" />
+                    <div class="px-2">
+                        <span class="d-block fw-bold fs-5">@basketItem.Title</span>
+                        <span class="d-block display-1 fs-6">@basketItem.Description</span>
+                        <span class="d-block text-muted cartItem-quantity">Quantity: @basketItem.Quantity</span>
+                    </div>
+                </div>
+                <span class="d-flex align-items-center display-1 fs-5">$@basketItem.Price</span>
+            </section>
+        }
+        <section class="checkout-section">
+            <hr>
+            <section class="d-flex justify-content-end">
+                <section class="d-flex flex-row justify-content-between w-50">
+                    <span class="fw-bold fs-5">Total</span>
+                    <span class="fw-bold fs-5">$@Model.Total</span>
+                </section>
+            </section>                       
+        </section>
+    </section>
+</section>    
