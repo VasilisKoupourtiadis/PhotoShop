@@ -30,17 +30,7 @@ namespace PhotoShop.Controllers
             var products = dataFetcher.GetProducts().Result.ToList();
 
             return View(products);
-        }   
-        
-        public IActionResult Success()
-        {
-            return View();
-        }
-
-        public IActionResult Cancel()
-        {
-            return View();
-        }
+        }                   
 
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
         public IActionResult Error()

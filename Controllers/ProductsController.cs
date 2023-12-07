@@ -55,7 +55,18 @@ public class ProductsController : Controller
             if (basketDto is null) return View("Error");            
         }
 
-        basketDto.Products.Add(product);
+        var productAlreadyInCart = basketDto.Products.FirstOrDefault(x => x.Id == product.Id);
+
+        if (productAlreadyInCart is not null)
+        {
+            productAlreadyInCart.Quantity++;
+            productAlreadyInCart.Price *= 2;
+        }
+        else
+        {
+            product.Quantity = 1;
+            basketDto.Products.Add(product);
+        }        
 
         var serializedBasket = JsonSerializer.Serialize(basketDto);
 

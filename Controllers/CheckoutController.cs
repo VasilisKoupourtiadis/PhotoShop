@@ -3,6 +3,7 @@ using PhotoShop.Models.Dto;
 using System.Text.Json;
 using Stripe;
 using Stripe.Checkout;
+using PhotoShop.Models.ViewModels;
 
 namespace PhotoShop.Controllers;
 
@@ -28,8 +29,21 @@ public class CheckoutController : Controller
         {
             basketDto = JsonSerializer.Deserialize<BasketDto>(basket);
         }
-        
-        return View(basketDto);
+
+        decimal total = 0;
+
+        foreach (var item in basketDto.Products)
+        {
+            total += item.Price;
+        }
+
+        var checkoutViewModel = new CheckoutViewModel()
+        {
+            Basket = basketDto,
+            Total = total
+        };
+
+        return View(checkoutViewModel);
     }
 
     public IActionResult CreateCheckoutSession()
@@ -50,8 +64,8 @@ public class CheckoutController : Controller
                 PaymentMethod
             },
             Mode = Mode,
-            SuccessUrl = $"{Domain}/Home/Success",
-            CancelUrl = $"{Domain}/Home/Cancel",
+            SuccessUrl = $"{Domain}/Order/Success/" + basketDto.Id,
+            CancelUrl = $"{Domain}/Order/Cancel/" + basketDto.Id,
         };
 
         var lineItems = new List<SessionLineItemOptions>();
@@ -62,7 +76,7 @@ public class CheckoutController : Controller
             {
                 PriceData = new SessionLineItemPriceDataOptions
                 {
-                    UnitAmountDecimal = product.Price * 100,
+                    UnitAmountDecimal = (product.Price * 100) / product.Quantity,
                     Currency = Currency,
                     ProductData = new SessionLineItemPriceDataProductDataOptions
                     {
@@ -71,7 +85,7 @@ public class CheckoutController : Controller
                         Images = new List<string> { product.ImageUrl }
                     },
                 },
-                Quantity = 1
+                Quantity = product.Quantity
             };
 
             lineItems.Add(sessionLineItemOption);
