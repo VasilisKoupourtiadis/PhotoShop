@@ -11,7 +11,7 @@ namespace PhotoShop.Controllers;
 
 public class CheckoutController : Controller
 {
-    const string Domain = "https://localhost:7015";
+    const string Domain = "https://photoshop.azurewebsites.net";
 
     const string Mode = "payment";
 
