@@ -10,18 +10,12 @@ namespace PhotoShop.Controllers
 {
     public class HomeController : Controller
     {
-        private readonly ILogger<HomeController> logger;
-
         private readonly ApplicationContext context;
 
         private readonly IMapper mapper;
 
-        public HomeController(ILogger<HomeController> logger, ApplicationContext context, IMapper mapper)
-        {
-            this.logger = logger;
-            this.context = context;
-            this.mapper = mapper;
-        }
+        public HomeController(ApplicationContext context, IMapper mapper) =>
+            (this.context, this.mapper) = (context, mapper);
 
         public IActionResult Index()
         {

@@ -13,25 +13,16 @@ public class OrderController : Controller
 {
     private readonly IKeyHelper keyHelper;
 
+    private readonly IBasketHelper basketHelper;
+
     private readonly ApplicationContext context;
 
-    public OrderController(ApplicationContext context, IKeyHelper keyHelper)
-    {
-        this.context = context;
-        this.keyHelper = keyHelper;
-    }
+    public OrderController(IKeyHelper keyHelper, IBasketHelper basketHelper, ApplicationContext context) => 
+        (this.keyHelper, this.basketHelper, this.context) = (keyHelper, basketHelper, context);
 
     public async Task<IActionResult> Success(Guid? id)
-    {
-        var sessionKey = keyHelper.GetSessionKey();
-
-        var basket = HttpContext.Session.GetString(sessionKey);
-
-        if (string.IsNullOrEmpty(basket)) throw new ArgumentNullException(nameof(id), $"Could not get basket with Id:${id}");
-
-        var basketDto = JsonSerializer.Deserialize<BasketDto>(basket);
-
-        if (basketDto.Id != id) throw new ArgumentNullException(nameof(id), $"Could not get basket with Id:${id}");
+    {        
+        var basketDto = basketHelper.GetBasket();
 
         Random rand = new();
         var orderId = 00 + rand.Next(10000000, 99000000);
@@ -56,6 +47,7 @@ public class OrderController : Controller
             OrderId = order.Id
         };
 
+        var sessionKey = keyHelper.GetSessionKey();
         HttpContext.Session.Remove(sessionKey);
 
         return View(checkoutViewModel);

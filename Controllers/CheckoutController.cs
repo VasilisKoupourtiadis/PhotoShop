@@ -19,25 +19,13 @@ public class CheckoutController : Controller
 
     const string PaymentMethod = "card";
 
-    private readonly IKeyHelper keyHelper;
+    private readonly IBasketHelper basketHelper;
 
-    public CheckoutController(IKeyHelper keyHelper)
-    {
-        this.keyHelper = keyHelper;
-    }
+    public CheckoutController(IBasketHelper basketHelper) => this.basketHelper = basketHelper;
 
     public IActionResult Index()
     {
-        var sessionKey = keyHelper.GetSessionKey();
-
-        var basket = HttpContext.Session.GetString(sessionKey);
-
-        var basketDto = new BasketDto();
-
-        if (!string.IsNullOrEmpty(basket))
-        {
-            basketDto = JsonSerializer.Deserialize<BasketDto>(basket);
-        }
+        var basketDto = basketHelper.GetBasket();
 
         decimal total = 0;
 
@@ -57,16 +45,7 @@ public class CheckoutController : Controller
 
     public IActionResult CreateCheckoutSession()
     {
-        var sessionKey = keyHelper.GetSessionKey();
-
-        var basket = HttpContext.Session.GetString(sessionKey);
-
-        var basketDto = new BasketDto();
-
-        if (!string.IsNullOrEmpty(basket))
-        {
-            basketDto = JsonSerializer.Deserialize<BasketDto>(basket);
-        }
+        var basketDto = basketHelper.GetBasket();
 
         var options = new SessionCreateOptions
         {            

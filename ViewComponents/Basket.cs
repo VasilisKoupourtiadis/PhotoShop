@@ -1,28 +1,29 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using PhotoShop.Helpers;
 using PhotoShop.Models.Dto;
+using PhotoShop.Services;
 using System.Text.Json;
 
 namespace PhotoShop.ViewComponents;
 
 public class Basket : ViewComponent
 {
-    private readonly string sessionKey = StringHelper.GetSessionKey();
+    private readonly IKeyHelper keyHelper;
+
+    private readonly IBasketHelper basketHelper;
+
+    public Basket(IKeyHelper keyHelper, IBasketHelper basketHelper) =>
+        (this.keyHelper, this.basketHelper) = (keyHelper, basketHelper);
 
     public IViewComponentResult Invoke()
     {
         var basketItemCount = 0;
 
-        var basket = HttpContext.Session.GetString(sessionKey);
+        var basketDto = basketHelper.GetBasket();
 
-        if(!string.IsNullOrEmpty(basket))
+        foreach (var product in basketDto.Products)
         {
-            var basketDto = JsonSerializer.Deserialize<BasketDto>(basket);
-
-            foreach(var product in basketDto.Products)
-            {
-                basketItemCount += product.Quantity.GetValueOrDefault(0);
-            }            
+            basketItemCount += product.Quantity.GetValueOrDefault(0);
         }
 
         ViewData["BasketItemCount"] = basketItemCount;

@@ -13,21 +13,16 @@ public class ProductsController : Controller
 {    
     const string URLPath = "details";
 
-    private readonly IKeyHelper keyHelper;
+    private readonly IBasketHelper basketHelper;
 
-    private readonly ILogger<ProductsController> logger;
+    private readonly IKeyHelper keyHelper;
 
     private readonly ApplicationContext context;
 
     private readonly IMapper mapper;
 
-    public ProductsController(ILogger<ProductsController> logger, ApplicationContext context, IMapper mapper, IKeyHelper keyHelper)
-    {
-        this.logger = logger;
-        this.context = context;
-        this.mapper = mapper;
-        this.keyHelper = keyHelper;
-    }
+    public ProductsController(IBasketHelper basketHelper, IKeyHelper keyHelper, ApplicationContext context, IMapper mapper) =>
+        (this.basketHelper, this.keyHelper, this.context, this.mapper) = (basketHelper, keyHelper, context, mapper);
 
     public IActionResult Details(Guid? id)
     {
@@ -46,18 +41,7 @@ public class ProductsController : Controller
 
         var product = dataFetcher.GetProductById(id).Result;
 
-        var sessionKey = keyHelper.GetSessionKey();
-
-        var basket = HttpContext.Session.GetString(sessionKey);
-
-        var basketDto = new BasketDto();
-
-        if (!string.IsNullOrEmpty(basket))
-        {
-            basketDto = JsonSerializer.Deserialize<BasketDto>(basket);
-
-            if (basketDto is null) return View("Error");            
-        }
+        var basketDto = basketHelper.GetBasket();
 
         var productAlreadyInCart = basketDto.Products.FirstOrDefault(x => x.Id == product.Id);
 
@@ -73,6 +57,8 @@ public class ProductsController : Controller
         }        
 
         var serializedBasket = JsonSerializer.Serialize(basketDto);
+
+        var sessionKey = keyHelper.GetSessionKey();
 
         HttpContext.Session.SetString(sessionKey, serializedBasket);
 

@@ -12,27 +12,16 @@ public class CartController : Controller
 {
     private readonly IKeyHelper keyHelper;
 
-    public CartController(IKeyHelper keyHelper)
-    {
-        this.keyHelper = keyHelper;
-    }
+    private readonly IBasketHelper basketHelper;
+
+    public CartController(IKeyHelper keyHelper, IBasketHelper basketHelper) =>
+        (this.keyHelper, this.basketHelper) = (keyHelper, basketHelper);
 
     public IActionResult DecreaseCartItemQuantityByOne(Guid? id)
     {
         var referer = Request.Headers["Referer"].ToString();
 
-        var sessionKey = keyHelper.GetSessionKey();
-
-        var basket = HttpContext.Session.GetString(sessionKey);
-
-        var basketDto = new BasketDto();
-
-        if (!string.IsNullOrEmpty(basket))
-        {
-            basketDto = JsonSerializer.Deserialize<BasketDto>(basket);
-
-            if (basketDto is null) return View("Error");
-        }
+        var basketDto = basketHelper.GetBasket();
 
         var item = basketDto.Products.FirstOrDefault(x => x.Id == id);
 
@@ -45,6 +34,7 @@ public class CartController : Controller
 
         var serializedBasket = JsonSerializer.Serialize(basketDto);
 
+        var sessionKey = keyHelper.GetSessionKey();
         HttpContext.Session.SetString(sessionKey, serializedBasket);
 
         return Redirect(referer);
@@ -54,18 +44,7 @@ public class CartController : Controller
     {
         var referer = Request.Headers["Referer"].ToString();
 
-        var sessionKey = keyHelper.GetSessionKey();
-
-        var basket = HttpContext.Session.GetString(sessionKey);
-
-        var basketDto = new BasketDto();
-
-        if (!string.IsNullOrEmpty(basket))
-        {
-            basketDto = JsonSerializer.Deserialize<BasketDto>(basket);
-
-            if (basketDto is null) return View("Error");
-        }
+        var basketDto = basketHelper.GetBasket();
 
         var item = basketDto.Products.FirstOrDefault(x => x.Id == id);
 
@@ -78,6 +57,7 @@ public class CartController : Controller
 
         var serializedBasket = JsonSerializer.Serialize(basketDto);
 
+        var sessionKey = keyHelper.GetSessionKey();
         HttpContext.Session.SetString(sessionKey, serializedBasket);
 
         return Redirect(referer);
@@ -87,18 +67,7 @@ public class CartController : Controller
     {
         var referer = Request.Headers["Referer"].ToString();
 
-        var sessionKey = keyHelper.GetSessionKey();
-
-        var basket = HttpContext.Session.GetString(sessionKey);
-
-        var basketDto = new BasketDto();
-
-        if (!string.IsNullOrEmpty(basket))
-        {
-            basketDto = JsonSerializer.Deserialize<BasketDto>(basket);
-
-            if (basketDto is null) return View("Error");
-        }
+        var basketDto = basketHelper.GetBasket();
 
         var item = basketDto.Products.FirstOrDefault(x => x.Id == id);
 
@@ -106,6 +75,7 @@ public class CartController : Controller
 
         var serializedBasket = JsonSerializer.Serialize(basketDto);
 
+        var sessionKey = keyHelper.GetSessionKey();
         HttpContext.Session.SetString(sessionKey, serializedBasket);
 
         return Redirect(referer);
