@@ -21,7 +21,9 @@ public class Program
         // Add services to the container.
         builder.Services.AddControllersWithViews();
         builder.Services.AddAutoMapper(typeof(Program));
+        builder.Services.AddHttpContextAccessor();
         builder.Services.AddSingleton<IKeyHelper, KeyHelper>();
+        builder.Services.AddTransient<IBasketHelper, BasketHelper>();
 
         builder.Services.AddDistributedMemoryCache();
         builder.Services.AddSession(options =>
